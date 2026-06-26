@@ -11,7 +11,8 @@ const activity_1 = require("./models/activity");
 const leaderboard_1 = require("./models/leaderboard");
 const workout_1 = require("./models/workout");
 const app = (0, express_1.default)();
-const port = process.env.PORT ? Number(process.env.PORT) : 8000;
+const port = Number(process.env.PORT ?? 8000);
+const host = '0.0.0.0';
 const codespaceName = process.env.CODESPACE_NAME;
 const apiBaseUrl = codespaceName
     ? `https://${codespaceName}-8000.app.github.dev`
@@ -92,6 +93,6 @@ registerCollectionRoutes('/api/workouts', () => workout_1.Workout.find({}).popul
     .catch((error) => {
     console.warn('MongoDB connection failed, continuing without a database connection:', error);
 });
-app.listen(port, () => {
-    console.log(`Backend listening on port ${port}`);
+app.listen(port, host, () => {
+    console.log(`Backend listening on port ${port} on ${host}`);
 });

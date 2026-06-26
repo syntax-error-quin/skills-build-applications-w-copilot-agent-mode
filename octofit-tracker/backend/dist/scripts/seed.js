@@ -8,6 +8,7 @@ const leaderboard_1 = require("../models/leaderboard");
 const workout_1 = require("../models/workout");
 // Seed the octofit_db database with test data
 async function seed() {
+    console.log('Seed the octofit_db database with test data');
     await (0, database_1.connectDatabase)();
     console.log('Connected to MongoDB for seeding');
     await Promise.all([
