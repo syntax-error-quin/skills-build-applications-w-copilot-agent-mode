@@ -17,7 +17,7 @@ export default function Teams() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message);
+          setError(err.message || 'Unable to load teams');
         }
       } finally {
         if (isMounted) {

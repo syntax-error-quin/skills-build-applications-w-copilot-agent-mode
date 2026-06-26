@@ -17,7 +17,7 @@ export default function Workouts() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message);
+          setError(err.message || 'Unable to load workouts');
         }
       } finally {
         if (isMounted) {

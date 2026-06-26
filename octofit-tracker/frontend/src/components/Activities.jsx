@@ -22,7 +22,7 @@ export default function Activities() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message);
+          setError(err.message || 'Unable to load activities');
         }
       } finally {
         if (isMounted) {

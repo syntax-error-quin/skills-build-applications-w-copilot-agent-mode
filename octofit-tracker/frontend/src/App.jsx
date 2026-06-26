@@ -1,4 +1,4 @@
-import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import Activities from './components/Activities';
 import Leaderboard from './components/Leaderboard';
 import Teams from './components/Teams';
@@ -26,7 +26,7 @@ function Home() {
         Explore users, teams, activities, leaderboard results, and workout plans from the multi-tier backend.
       </p>
       <p className="text-muted">
-        Define VITE_CODESPACE_NAME in .env.local when running in GitHub Codespaces so the frontend targets the public API URL automatically. Current mode: {apiMode}.
+        Create a .env.local file with VITE_CODESPACE_NAME=your-codespace-name when running in GitHub Codespaces so the app targets the public API URL automatically. If VITE_CODESPACE_NAME is unset, the app falls back to the local Vite proxy. Current mode: {apiMode}.
       </p>
     </section>
   );
@@ -34,7 +34,7 @@ function Home() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <span className="navbar-brand">OctoFit</span>
@@ -56,7 +56,7 @@ function App() {
         <Route path="/leaderboard" element={<Leaderboard />} />
         <Route path="/workouts" element={<Workouts />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

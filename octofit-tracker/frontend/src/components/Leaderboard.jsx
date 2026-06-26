@@ -17,7 +17,7 @@ export default function Leaderboard() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message);
+          setError(err.message || 'Unable to load leaderboard');
         }
       } finally {
         if (isMounted) {

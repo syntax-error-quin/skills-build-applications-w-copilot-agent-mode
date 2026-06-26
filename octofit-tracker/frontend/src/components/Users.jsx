@@ -17,7 +17,7 @@ export default function Users() {
         }
       } catch (err) {
         if (isMounted) {
-          setError(err.message);
+          setError(err.message || 'Unable to load users');
         }
       } finally {
         if (isMounted) {
