@@ -32,10 +32,15 @@ const createCollectionRouter = async (handler, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-app.get('/api/users', async (_req, res) => {
-    await createCollectionRouter(() => user_1.User.find({}).lean(), res);
-});
-app.post('/api/users', async (req, res) => {
+const registerCollectionRoutes = (path, listHandler, createHandler) => {
+    app.get([path, `${path}/`], async (_req, res) => {
+        await createCollectionRouter(listHandler, res);
+    });
+    app.post([path, `${path}/`], async (req, res) => {
+        await createHandler(req, res);
+    });
+};
+registerCollectionRoutes('/api/users', () => user_1.User.find({}).lean(), async (req, res) => {
     try {
         const user = await user_1.User.create(req.body);
         res.status(201).json(user);
@@ -44,10 +49,7 @@ app.post('/api/users', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-app.get('/api/teams', async (_req, res) => {
-    await createCollectionRouter(() => team_1.Team.find({}).populate('members').populate('captain').lean(), res);
-});
-app.post('/api/teams', async (req, res) => {
+registerCollectionRoutes('/api/teams', () => team_1.Team.find({}).populate('members').populate('captain').lean(), async (req, res) => {
     try {
         const team = await team_1.Team.create(req.body);
         res.status(201).json(team);
@@ -56,10 +58,7 @@ app.post('/api/teams', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-app.get('/api/activities', async (_req, res) => {
-    await createCollectionRouter(() => activity_1.Activity.find({}).populate('user').lean(), res);
-});
-app.post('/api/activities', async (req, res) => {
+registerCollectionRoutes('/api/activities', () => activity_1.Activity.find({}).populate('user').lean(), async (req, res) => {
     try {
         const activity = await activity_1.Activity.create(req.body);
         res.status(201).json(activity);
@@ -68,10 +67,7 @@ app.post('/api/activities', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-app.get('/api/leaderboard', async (_req, res) => {
-    await createCollectionRouter(() => leaderboard_1.Leaderboard.find({}).populate('user').lean(), res);
-});
-app.post('/api/leaderboard', async (req, res) => {
+registerCollectionRoutes('/api/leaderboard', () => leaderboard_1.Leaderboard.find({}).populate('user').lean(), async (req, res) => {
     try {
         const entry = await leaderboard_1.Leaderboard.create(req.body);
         res.status(201).json(entry);
@@ -80,10 +76,7 @@ app.post('/api/leaderboard', async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 });
-app.get('/api/workouts', async (_req, res) => {
-    await createCollectionRouter(() => workout_1.Workout.find({}).populate('assignedTo').lean(), res);
-});
-app.post('/api/workouts', async (req, res) => {
+registerCollectionRoutes('/api/workouts', () => workout_1.Workout.find({}).populate('assignedTo').lean(), async (req, res) => {
     try {
         const workout = await workout_1.Workout.create(req.body);
         res.status(201).json(workout);

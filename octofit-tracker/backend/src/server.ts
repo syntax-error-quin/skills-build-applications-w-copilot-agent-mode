@@ -32,70 +32,84 @@ const createCollectionRouter = async (handler: () => Promise<unknown>, res: expr
   }
 };
 
-app.get('/api/users', async (_req, res) => {
-  await createCollectionRouter(() => User.find({}).lean(), res);
-});
+const registerCollectionRoutes = (
+  path: string,
+  listHandler: () => Promise<unknown>,
+  createHandler: (req: express.Request, res: express.Response) => Promise<void>,
+) => {
+  app.get([path, `${path}/`], async (_req, res) => {
+    await createCollectionRouter(listHandler, res);
+  });
 
-app.post('/api/users', async (req, res) => {
-  try {
-    const user = await User.create(req.body);
-    res.status(201).json(user);
-  } catch (error) {
-    res.status(400).json({ error: (error as Error).message });
-  }
-});
+  app.post([path, `${path}/`], async (req, res) => {
+    await createHandler(req, res);
+  });
+};
 
-app.get('/api/teams', async (_req, res) => {
-  await createCollectionRouter(() => Team.find({}).populate('members').populate('captain').lean(), res);
-});
+registerCollectionRoutes(
+  '/api/users',
+  () => User.find({}).lean(),
+  async (req, res) => {
+    try {
+      const user = await User.create(req.body);
+      res.status(201).json(user);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  },
+);
 
-app.post('/api/teams', async (req, res) => {
-  try {
-    const team = await Team.create(req.body);
-    res.status(201).json(team);
-  } catch (error) {
-    res.status(400).json({ error: (error as Error).message });
-  }
-});
+registerCollectionRoutes(
+  '/api/teams',
+  () => Team.find({}).populate('members').populate('captain').lean(),
+  async (req, res) => {
+    try {
+      const team = await Team.create(req.body);
+      res.status(201).json(team);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  },
+);
 
-app.get('/api/activities', async (_req, res) => {
-  await createCollectionRouter(() => Activity.find({}).populate('user').lean(), res);
-});
+registerCollectionRoutes(
+  '/api/activities',
+  () => Activity.find({}).populate('user').lean(),
+  async (req, res) => {
+    try {
+      const activity = await Activity.create(req.body);
+      res.status(201).json(activity);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  },
+);
 
-app.post('/api/activities', async (req, res) => {
-  try {
-    const activity = await Activity.create(req.body);
-    res.status(201).json(activity);
-  } catch (error) {
-    res.status(400).json({ error: (error as Error).message });
-  }
-});
+registerCollectionRoutes(
+  '/api/leaderboard',
+  () => Leaderboard.find({}).populate('user').lean(),
+  async (req, res) => {
+    try {
+      const entry = await Leaderboard.create(req.body);
+      res.status(201).json(entry);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  },
+);
 
-app.get('/api/leaderboard', async (_req, res) => {
-  await createCollectionRouter(() => Leaderboard.find({}).populate('user').lean(), res);
-});
-
-app.post('/api/leaderboard', async (req, res) => {
-  try {
-    const entry = await Leaderboard.create(req.body);
-    res.status(201).json(entry);
-  } catch (error) {
-    res.status(400).json({ error: (error as Error).message });
-  }
-});
-
-app.get('/api/workouts', async (_req, res) => {
-  await createCollectionRouter(() => Workout.find({}).populate('assignedTo').lean(), res);
-});
-
-app.post('/api/workouts', async (req, res) => {
-  try {
-    const workout = await Workout.create(req.body);
-    res.status(201).json(workout);
-  } catch (error) {
-    res.status(400).json({ error: (error as Error).message });
-  }
-});
+registerCollectionRoutes(
+  '/api/workouts',
+  () => Workout.find({}).populate('assignedTo').lean(),
+  async (req, res) => {
+    try {
+      const workout = await Workout.create(req.body);
+      res.status(201).json(workout);
+    } catch (error) {
+      res.status(400).json({ error: (error as Error).message });
+    }
+  },
+);
 
 const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/octofit_db';
 
