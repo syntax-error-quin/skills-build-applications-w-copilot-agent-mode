@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const database_1 = require("../database");
+const database_1 = require("../config/database");
 const user_1 = require("../models/user");
 const team_1 = require("../models/team");
 const activity_1 = require("../models/activity");

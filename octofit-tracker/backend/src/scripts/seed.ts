@@ -1,4 +1,4 @@
-import { connectDatabase } from '../database';
+import { connectDatabase } from '../config/database';
 import { User } from '../models/user';
 import { Team } from '../models/team';
 import { Activity } from '../models/activity';
@@ -7,6 +7,7 @@ import { Workout } from '../models/workout';
 
 // Seed the octofit_db database with test data
 async function seed() {
+  console.log('Seed the octofit_db database with test data');
   await connectDatabase();
   console.log('Connected to MongoDB for seeding');
 
