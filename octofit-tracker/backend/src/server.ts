@@ -69,7 +69,7 @@ const registerCollectionRoutes = (
 };
 
 registerCollectionRoutes(
-  '/api/users',
+  '/api/users/',
   () => User.find({}).lean(),
   async (req, res) => {
     try {
