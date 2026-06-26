@@ -44,10 +44,16 @@ const createCollectionRouter = async (handler, res) => {
     }
 };
 const registerCollectionRoutes = (path, listHandler, createHandler) => {
-    app.get([path, `${path}/`], async (_req, res) => {
+    app.get(path, async (_req, res) => {
         await createCollectionRouter(listHandler, res);
     });
-    app.post([path, `${path}/`], async (req, res) => {
+    app.get(`${path}/`, async (_req, res) => {
+        await createCollectionRouter(listHandler, res);
+    });
+    app.post(path, async (req, res) => {
+        await createHandler(req, res);
+    });
+    app.post(`${path}/`, async (req, res) => {
         await createHandler(req, res);
     });
 };
