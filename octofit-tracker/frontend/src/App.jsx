@@ -15,6 +15,9 @@ const navItems = [
   { to: '/workouts', label: 'Workouts' },
 ];
 
+const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+const apiMode = codespaceName ? `Codespaces (${codespaceName})` : 'localhost';
+
 function Home() {
   return (
     <section className="container py-4">
@@ -23,7 +26,7 @@ function Home() {
         Explore users, teams, activities, leaderboard results, and workout plans from the multi-tier backend.
       </p>
       <p className="text-muted">
-        Define VITE_CODESPACE_NAME in .env.local when running in GitHub Codespaces so the frontend targets the public API URL automatically.
+        Define VITE_CODESPACE_NAME in .env.local when running in GitHub Codespaces so the frontend targets the public API URL automatically. Current mode: {apiMode}.
       </p>
     </section>
   );
