@@ -1,5 +1,5 @@
 import express from 'express';
-import mongoose from 'mongoose';
+import { connectDatabase } from './database';
 import { User } from './models/user';
 import { Team } from './models/team';
 import { Activity } from './models/activity';
@@ -111,10 +111,7 @@ registerCollectionRoutes(
   },
 );
 
-const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/octofit_db';
-
-mongoose
-  .connect(mongoUri)
+connectDatabase()
   .then(() => {
     console.log('MongoDB connected');
   })

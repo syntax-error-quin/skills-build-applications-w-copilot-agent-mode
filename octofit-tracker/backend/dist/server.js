@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
+const database_1 = require("./database");
 const user_1 = require("./models/user");
 const team_1 = require("./models/team");
 const activity_1 = require("./models/activity");
@@ -85,9 +85,7 @@ registerCollectionRoutes('/api/workouts', () => workout_1.Workout.find({}).popul
         res.status(400).json({ error: error.message });
     }
 });
-const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/octofit_db';
-mongoose_1.default
-    .connect(mongoUri)
+(0, database_1.connectDatabase)()
     .then(() => {
     console.log('MongoDB connected');
 })
