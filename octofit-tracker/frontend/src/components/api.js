@@ -2,11 +2,11 @@ const getCodespaceName = () => import.meta.env.VITE_CODESPACE_NAME?.trim();
 
 export const buildApiUrl = (resource) => {
   const codespaceName = getCodespaceName();
-  const baseUrl = codespaceName
-    ? `https://${codespaceName}-8000.app.github.dev/api/${resource}/`
-    : `http://localhost:8000/api/${resource}/`;
+  if (codespaceName) {
+    return `https://${codespaceName}-8000.app.github.dev/api/${resource}/`;
+  }
 
-  return baseUrl;
+  return `/api/${resource}/`;
 };
 
 export const fetchJson = async (url) => {
