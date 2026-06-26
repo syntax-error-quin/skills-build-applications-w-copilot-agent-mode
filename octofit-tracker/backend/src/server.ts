@@ -82,7 +82,7 @@ registerCollectionRoutes(
 );
 
 registerCollectionRoutes(
-  '/api/teams',
+  '/api/teams/',
   () => Team.find({}).populate('members').populate('captain').lean(),
   async (req, res) => {
     try {
@@ -95,7 +95,7 @@ registerCollectionRoutes(
 );
 
 registerCollectionRoutes(
-  '/api/activities',
+  '/api/activities/',
   () => Activity.find({}).populate('user').lean(),
   async (req, res) => {
     try {
@@ -121,7 +121,7 @@ registerCollectionRoutes(
 );
 
 registerCollectionRoutes(
-  '/api/workouts',
+  '/api/workouts/',
   () => Workout.find({}).populate('assignedTo').lean(),
   async (req, res) => {
     try {
